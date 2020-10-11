@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -122,6 +123,7 @@ namespace GoFish
                 if (i == 0)
                 {
                     players[i].AskForACard(players, i, stock, players[i].Peek(selectedPlayerCard).Value);
+                    players[i].SortHand();
                 }
                 else
                 {
@@ -135,23 +137,51 @@ namespace GoFish
                     }
                 }
             }
-            return false;
+            return stock.Count == 0;
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This method is called at the end of the game.
+        /// It uses its own dictionary (Dictionary<string, int> winners) to keep track of how many books each player ended up with in the books dictionary.
+        /// First it uses a foreach loop on books.
+        /// Keys—foreach (Values value in books.Keys)—to populate its winners dictionary with the number of books each player ended up with.
+        /// Then it loops through that dictionary to find the largest number of books any winner has.
+        /// And finally it makes one last pass through winners to come up with a list of winners in a string ("Joe and Ed").
+        /// If there's one winner, it returns a string like this: "Ed with 3 books".
+        /// Otherwise, it returns a string like this: "A tie between Joe and Bob with 2 books."
+        /// </summary>
+        /// <returns></returns>
         public string GetWinnerName()
         {
-            // This method is called at the end of the game. It uses its own dictionary
-            // (Dictionary<string, int> winners) to keep track of how many books each player
-            // ended up with in the books dictionary. First it uses a foreach loop
-            // on books.Keys—foreach (Values value in books.Keys)—to populate
-            // its winners dictionary with the number of books each player ended up with.
-            // Then it loops through that dictionary to find the largest number of books
-            // any winner has. And finally it makes one last pass through winners to come
-            // up with a list of winners in a string ("Joe and Ed"). If there's one winner,
-            // it returns a string like this: "Ed with 3 books". Otherwise, it returns a
-            // string like this: "A tie between Joe and Bob with 2 books."
-            throw new NotImplementedException();
+            Dictionary<string, int> winners = new Dictionary<string, int>();
+            foreach (Player player in books.Values)
+            {
+                int value;
+                if (winners.TryGetValue(player.Name, out value))
+                {
+                    winners[player.Name] = value + 1;
+                }
+                else
+                {
+                    winners[player.Name] = 1;
+                }
+            }
+            
+            winners.OrderByDescending(i => i.Value);
+            int maxBooks = 0;
+            foreach (string name in winners.Keys)
+            {
+                int count;
+                winners.TryGetValue(name, out count);
+                maxBooks = maxBooks < count ? count : maxBooks;
+            }
+
+            Dictionary<string, int> matches = winners.Where(c => c.Value == maxBooks).ToDictionary(x => x.Key, x => x.Value);
+            string winnerNames = string.Join(" and ", matches.Keys);
+            return matches.Count == 1
+                ? $"{winnerNames} with {maxBooks} books"
+                : $"A tie between {winnerNames} with {maxBooks} books.";
         }
     }
 }
