@@ -27,33 +27,77 @@ namespace GoFish
 
         public Values GetRandomValue()
         {
-            // This method gets a random value—but it has to be a value that's in the deck!
-            throw new NotImplementedException();
+            return cards.Peek(random.Next(cards.Count)).Value;
         }
 
+        /// <summary> 
+        /// This is where an opponent asks if I have any cards of a certain value 
+        /// Use Deck.PullOutValues() to pull out the values. 
+        /// Add a line to the TextBox that says, "Joe has 3 sixes"—use the new Card.Plural() static method
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public Deck DoYouHaveAny(Values value)
         {
-            // This is where an opponent asks if I have any cards of a certain value
-            // Use Deck.PullOutValues() to pull out the values. Add a line to the TextBox
-            // that says, "Joe has 3 sixes"—use the new Card.Plural() static method
-            throw new NotImplementedException();
+            Deck pullCards = cards.PullOutValues(value);
+            if (pullCards.Count > 0)
+            {
+                textBoxOnForm.Text += $"{Name} has {pullCards.Count} {Card.Plural(value)}{Environment.NewLine}";
+            }
+            return pullCards;
         }
 
+        /// <summary>
+        /// Here's an overloaded version of AskForACard() —
+        /// choose a random value from the deck using GetRandomValue() and ask for it using AskForACard()
+        /// </summary>
+        /// <param name="players"></param>
+        /// <param name="myIndex"></param>
+        /// <param name="stock"></param>
         public void AskForACard(List<Player> players, int myIndex, Deck stock)
         {
-            // Here's an overloaded version of AskForACard()—choose a random value
-            // from the deck using GetRandomValue() and ask for it using AskForACard()
+            AskForACard(players, myIndex, stock, GetRandomValue());
         }
 
+        /// <summary>
+        /// Ask the other players for a value.
+        /// First add a line to the TextBox: "Joe asks if anyone has a Queen".
+        /// Then go through the list of players that was passed in as a parameter 
+        /// and ask each player if he has any of the value (using his DoYouHaveAny() method).
+        /// He'll pass you a deck of cards—add them to my deck.
+        /// Keep track of how many cards were added.
+        /// If there weren't any, you'll need to deal yourself a card from the stock 
+        /// (which was also passed as a parameter), 
+        /// and you'll have to add a line to the TextBox: "Joe had to draw from the stock"
+        /// </summary>
+        /// <param name="players"></param>
+        /// <param name="myIndex"></param>
+        /// <param name="stock"></param>
+        /// <param name="value"></param>
         public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
         {
-            // Ask the other players for a value. First add a line to the TextBox: "Joe asks
-            // if anyone has a Queen". Then go through the list of players that was passed in
-            // as a parameter and ask each player if he has any of the value (using his
-            // DoYouHaveAny() method). He'll pass you a deck of cards—add them to my deck.
-            // Keep track of how many cards were added. If there weren't any, you'll need
-            // to deal yourself a card from the stock (which was also passed as a parameter),
-            // and you'll have to add a line to the TextBox: "Joe had to draw from the stock"
+            bool goFish = true;
+            textBoxOnForm.Text += $"{players[myIndex].Name} asks if anyone has a {value}{Environment.NewLine}";
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (i != myIndex)
+                {
+                    Deck pulledCards = players[i].DoYouHaveAny(value);
+                    if (pulledCards.Count > 0)
+                    {
+                        goFish = false;
+                        for (int c = 0; c < pulledCards.Count; c++)
+                        {
+                            players[myIndex].TakeCard(pulledCards.Deal(c));
+                        }
+                    }
+                }
+            }
+            if (goFish)
+            {
+                players[myIndex].TakeCard(stock.Deal());
+                textBoxOnForm.Text += $"{players[myIndex].Name} had to draw from the stock.{Environment.NewLine}";
+            }
         }
 
         // Here's a property and a few short methods that were already written for you
