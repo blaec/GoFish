@@ -21,6 +21,7 @@ namespace GoFish
             this.name = name;
             this.random = random;
             this.textBoxOnForm = textBoxOnForm;
+            this.cards = new Deck(new Card[] { });
             textBoxOnForm.Text += $"{name} has just joined the game.{Environment.NewLine}";
         }
 
@@ -61,6 +62,7 @@ namespace GoFish
         public IEnumerable<string> GetCardNames() { return cards.GetCardNames(); }
         public Card Peek(int cardNumber) { return cards.Peek(cardNumber); }
         public void SortHand() { cards.SortByValue(); }
+
         public IEnumerable<Values> PullOutBooks()
         {
             List<Values> books = new List<Values>();

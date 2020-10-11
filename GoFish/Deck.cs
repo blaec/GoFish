@@ -83,7 +83,7 @@ namespace GoFish
         public Deck PullOutValues(Values value)
         {
             Deck deckToReturn = new Deck(new Card[] { });
-            for (int i = cards.Count - 1; i >= 0; i--)
+            for (int i = cards.Count-1; i >=0; i--)
             {
                 if (cards[i].Value == value)
                 {

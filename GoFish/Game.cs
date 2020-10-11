@@ -18,9 +18,9 @@ namespace GoFish
             this.textBoxOnForm = textBoxOnForm;
             players = new List<Player>();
             players.Add(new Player(playerName, random, textBoxOnForm));
-            foreach (string player in opponentNames) 
-            { 
-                players.Add(new Player(player, random, textBoxOnForm)); 
+            foreach (string player in opponentNames)
+            {
+                players.Add(new Player(player, random, textBoxOnForm));
             }
             books = new Dictionary<Values, Player>();
             stock = new Deck();
@@ -28,19 +28,48 @@ namespace GoFish
             players[0].SortHand();
         }
 
+        /// <summary>
+        /// This is where the game starts—this method's only called at the beginning of the game.
+        /// Shuffle the stock, deal five cards to each player,
+        /// then use a foreach loop to call each player's PullOutBooks() method.
+        /// </summary>
         private void Deal()
         {
-            // This is where the game starts—this method's only called at the beginning
-            // of the game. Shuffle the stock, deal five cards to each player, then use a
-            // foreach loop to call each player's PullOutBooks() method.
+            stock.Shuffle();
+            foreach (Player player in players)
+            {
+                
+                for (int i = 0; i < 5; i++)
+                {
+                    player.TakeCard(stock.Deal());
+                }
+                PullOutBooks(player);
+            }
         }
 
+        /// <summary>
+        /// Pull out a player's books.
+        /// Each book is added to the Books dictionary.
+        /// A player runs out of cards when he's used all of his cards to make books—and he wins the game.
+        /// </summary>
+        /// <param name="player">player</param>
+        /// <returns>Return true if the player ran out of cards, otherwise return false.</returns>
         public bool PullOutBooks(Player player)
         {
-            // Pull out a player's books. Return true if the player ran out of cards, otherwise
-            // return false. Each book is added to the Books dictionary. A player runs out of
-            // cards when he’'s used all of his cards to make books—and he wins the game.
-            throw new NotImplementedException();
+            List<Values> playerBooks = (List<Values>)player.PullOutBooks();
+            if (playerBooks.Count > 0)
+            {
+                foreach (Values playerBook in playerBooks)
+                {
+                    books.Add(playerBook, player);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        player.TakeCard(stock.Deal());
+                    }
+                }
+            }
+
+            return player.CardCount == 0;
         }
 
         public IEnumerable<string> GetPlayerCardNames()
@@ -48,11 +77,19 @@ namespace GoFish
             return players[0].GetCardNames();
         }
 
+        /// <summary>
+        /// Return a long string that describes everyone's books by looking at the Books dictionary: 
+        /// "Joe has a book of sixes. (line break) Ed has a book of Aces."
+        /// </summary>
+        /// <returns></returns>
         public string DescribeBooks()
         {
-            // Return a long string that describes everyone's books by looking at the Books
-            // dictionary: "Joe has a book of sixes. (line break) Ed has a book of Aces."
-            throw new NotImplementedException();
+            string description = "";
+            foreach (Values key in books.Keys)
+            {
+                description += $"{books.GetValueOrDefault(key).Name} has a book of {Card.Plural(key)}.{Environment.NewLine}";
+            }
+            return description;
         }
 
         public string DescribePlayerHands()
