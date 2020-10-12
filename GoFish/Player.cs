@@ -39,12 +39,12 @@ namespace GoFish
         /// <returns></returns>
         public Deck DoYouHaveAny(Values value)
         {
-            Deck pullCards = cards.PullOutValues(value);
-            if (pullCards.Count > 0)
+            Deck pulledCards = cards.PullOutValues(value);
+            if (pulledCards.Count > 0)
             {
-                textBoxOnForm.Text += $"{Name} has {pullCards.Count} {Card.Plural(value)}{Environment.NewLine}";
+                textBoxOnForm.Text += $"{Name} has {pulledCards.Count} {Card.Plural(value)}{Environment.NewLine}";
             }
-            return pullCards;
+            return pulledCards;
         }
 
         /// <summary>
@@ -56,7 +56,14 @@ namespace GoFish
         /// <param name="stock"></param>
         public void AskForACard(List<Player> players, int myIndex, Deck stock)
         {
-            AskForACard(players, myIndex, stock, GetRandomValue());
+            if (stock.Count > 0)
+            {
+                if (cards.Count == 0)
+                {
+                    TakeCard(stock.Deal());
+                }
+                AskForACard(players, myIndex, stock, GetRandomValue());
+            }
         }
 
         /// <summary>
@@ -83,20 +90,17 @@ namespace GoFish
                 if (i != myIndex)
                 {
                     Deck pulledCards = players[i].DoYouHaveAny(value);
-                    if (pulledCards.Count > 0)
+                    while (pulledCards.Count > 0)
                     {
                         goFish = false;
-                        while (pulledCards.Count > 0)
-                        {
-                            players[myIndex].TakeCard(pulledCards.Deal());
-                        }
+                        TakeCard(pulledCards.Deal());
                     }
                 }
             }
-            if (goFish)
+            if (goFish && stock.Count > 0)
             {
-                players[myIndex].TakeCard(stock.Deal());
                 textBoxOnForm.Text += $"{players[myIndex].Name} had to draw from the stock.{Environment.NewLine}";
+                TakeCard(stock.Deal());
             }
         }
 

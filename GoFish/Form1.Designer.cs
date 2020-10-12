@@ -80,6 +80,7 @@
             this.textProgress.Location = new System.Drawing.Point(22, 88);
             this.textProgress.Multiline = true;
             this.textProgress.Name = "textProgress";
+            this.textProgress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textProgress.Size = new System.Drawing.Size(287, 199);
             this.textProgress.TabIndex = 4;
             // 
@@ -97,6 +98,7 @@
             this.textBooks.Location = new System.Drawing.Point(22, 313);
             this.textBooks.Multiline = true;
             this.textBooks.Name = "textBooks";
+            this.textBooks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBooks.Size = new System.Drawing.Size(287, 125);
             this.textBooks.TabIndex = 6;
             // 

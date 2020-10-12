@@ -56,13 +56,10 @@ namespace GoFish
         /// <returns>Return true if the player ran out of cards, otherwise return false.</returns>
         public bool PullOutBooks(Player player)
         {
-            List<Values> playerBooks = (List<Values>)player.PullOutBooks();
-            if (playerBooks.Count > 0)
+            IEnumerable<Values> playerBooks = player.PullOutBooks();
+            foreach (Values playerBook in playerBooks)
             {
-                foreach (Values playerBook in playerBooks)
-                {
-                    books.Add(playerBook, player);
-                }
+                books.Add(playerBook, player);
             }
 
             return player.CardCount == 0;
@@ -134,11 +131,16 @@ namespace GoFish
                 }
                 if (PullOutBooks(players[i]))
                 {
-                    while(players[i].CardCount < 5 || stock.Count > 0)     
+                    textBoxOnForm.Text += $"{players[i].Name} drew a new hand{Environment.NewLine}";
+                    while(players[i].CardCount < 5 && stock.Count > 0)     
                     {
                         players[i].TakeCard(stock.Deal());
                     }
                 }
+            }
+            if (stock.Count == 0)
+            {
+                textBoxOnForm.Text += $"The stock is out of cards. Game over!{Environment.NewLine}";
             }
             return stock.Count == 0;
         }
@@ -159,10 +161,9 @@ namespace GoFish
             Dictionary<string, int> winners = new Dictionary<string, int>();
             foreach (Player player in books.Values)
             {
-                int value;
-                if (winners.TryGetValue(player.Name, out value))
+                if (winners.ContainsKey(player.Name))
                 {
-                    winners[player.Name] = value + 1;
+                    winners[player.Name]++;
                 }
                 else
                 {
@@ -174,9 +175,7 @@ namespace GoFish
             int maxBooks = 0;
             foreach (string name in winners.Keys)
             {
-                int count;
-                winners.TryGetValue(name, out count);
-                maxBooks = maxBooks < count ? count : maxBooks;
+                maxBooks = maxBooks < winners[name] ? winners[name] : maxBooks;
             }
 
             Dictionary<string, int> matches = winners.Where(c => c.Value == maxBooks).ToDictionary(x => x.Key, x => x.Value);
