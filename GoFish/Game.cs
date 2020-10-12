@@ -127,18 +127,20 @@ namespace GoFish
                 }
                 else
                 {
-                    players[i].AskForACard(players, i, stock);
+                    if (players[i].CardCount > 0)
+                    {
+                        players[i].AskForACard(players, i, stock);
+                    }
                 }
                 if (PullOutBooks(players[i]))
                 {
-                    while(players[i].CardCount < 5)     
+                    while(players[i].CardCount < 5 || stock.Count > 0)     
                     {
                         players[i].TakeCard(stock.Deal());
                     }
                 }
             }
             return stock.Count == 0;
-            //throw new NotImplementedException();
         }
 
         /// <summary>

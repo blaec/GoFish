@@ -86,9 +86,9 @@ namespace GoFish
                     if (pulledCards.Count > 0)
                     {
                         goFish = false;
-                        for (int c = 0; c < pulledCards.Count; c++)
+                        while (pulledCards.Count > 0)
                         {
-                            players[myIndex].TakeCard(pulledCards.Deal(c));
+                            players[myIndex].TakeCard(pulledCards.Deal());
                         }
                     }
                 }
