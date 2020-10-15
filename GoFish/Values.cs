@@ -4,6 +4,7 @@ using System.Text;
 
 namespace GoFish
 {
+    [Serializable]
     enum Values
     {
         Ace = 1,

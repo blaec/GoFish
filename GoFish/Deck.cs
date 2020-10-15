@@ -5,10 +5,11 @@ using System.Text;
 
 namespace GoFish
 {
+    [Serializable]
     class Deck
     {
         private List<Card> cards;
-        private Random random = new Random();
+        
 
         public Deck()
         {
@@ -48,6 +49,7 @@ namespace GoFish
 
         public void Shuffle()
         {
+            Random random = new Random();
             for (int i = 0; i < 100; i++)
             {
                 Card temp = Deal(random.Next(0, cards.Count));

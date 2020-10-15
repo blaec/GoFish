@@ -4,8 +4,10 @@ using System.Text;
 
 namespace GoFish
 {
+    [Serializable]
     class Card
     {
+        public string Name { get { return ToString(); } }
         public Suits Suit { get; }
         public Values Value { get; }
 

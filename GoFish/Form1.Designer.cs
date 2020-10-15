@@ -38,6 +38,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.buttonAsk = new System.Windows.Forms.Button();
             this.listHand = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.serializeDeck = new System.Windows.Forms.Button();
+            this.deserializeDeck = new System.Windows.Forms.Button();
+            this.serializeBunch = new System.Windows.Forms.Button();
+            this.deserializeBunch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -131,11 +137,74 @@
             this.listHand.TabIndex = 10;
             this.listHand.DoubleClick += new System.EventHandler(this.buttonAsk_Click);
             // 
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label5.Location = new System.Drawing.Point(535, 13);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(2, 437);
+            this.label5.TabIndex = 11;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(544, 21);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(70, 15);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Serialization";
+            // 
+            // serializeDeck
+            // 
+            this.serializeDeck.Location = new System.Drawing.Point(544, 38);
+            this.serializeDeck.Name = "serializeDeck";
+            this.serializeDeck.Size = new System.Drawing.Size(122, 23);
+            this.serializeDeck.TabIndex = 13;
+            this.serializeDeck.Text = "Serialize Deck";
+            this.serializeDeck.UseVisualStyleBackColor = true;
+            this.serializeDeck.Click += new System.EventHandler(this.serializeDeck_Click);
+            // 
+            // deserializeDeck
+            // 
+            this.deserializeDeck.Location = new System.Drawing.Point(544, 70);
+            this.deserializeDeck.Name = "deserializeDeck";
+            this.deserializeDeck.Size = new System.Drawing.Size(122, 23);
+            this.deserializeDeck.TabIndex = 14;
+            this.deserializeDeck.Text = "Deserialize Deck";
+            this.deserializeDeck.UseVisualStyleBackColor = true;
+            this.deserializeDeck.Click += new System.EventHandler(this.deserializeDeck_Click);
+            // 
+            // serializeBunch
+            // 
+            this.serializeBunch.Location = new System.Drawing.Point(544, 131);
+            this.serializeBunch.Name = "serializeBunch";
+            this.serializeBunch.Size = new System.Drawing.Size(122, 40);
+            this.serializeBunch.TabIndex = 15;
+            this.serializeBunch.Text = "Serialize Bunch of Decks";
+            this.serializeBunch.UseVisualStyleBackColor = true;
+            this.serializeBunch.Click += new System.EventHandler(this.serializeBunch_Click);
+            // 
+            // deserializeBunch
+            // 
+            this.deserializeBunch.Location = new System.Drawing.Point(544, 178);
+            this.deserializeBunch.Name = "deserializeBunch";
+            this.deserializeBunch.Size = new System.Drawing.Size(122, 40);
+            this.deserializeBunch.TabIndex = 16;
+            this.deserializeBunch.Text = "Deserialize Bunch of Decks";
+            this.deserializeBunch.UseVisualStyleBackColor = true;
+            this.deserializeBunch.Click += new System.EventHandler(this.deserializeBunch_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 459);
+            this.ClientSize = new System.Drawing.Size(678, 459);
+            this.Controls.Add(this.deserializeBunch);
+            this.Controls.Add(this.serializeBunch);
+            this.Controls.Add(this.deserializeDeck);
+            this.Controls.Add(this.serializeDeck);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.listHand);
             this.Controls.Add(this.buttonAsk);
             this.Controls.Add(this.label4);
@@ -146,6 +215,9 @@
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.textName);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Go Fish!";
             this.ResumeLayout(false);
@@ -165,6 +237,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonAsk;
         private System.Windows.Forms.ListBox listHand;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button serializeDeck;
+        private System.Windows.Forms.Button deserializeDeck;
+        private System.Windows.Forms.Button serializeBunch;
+        private System.Windows.Forms.Button deserializeBunch;
     }
 }
 
