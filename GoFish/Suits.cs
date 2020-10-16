@@ -4,7 +4,6 @@ using System.Text;
 
 namespace GoFish
 {
-    [Serializable]
     enum Suits
     {
         Spades = 0,
